@@ -1,0 +1,88 @@
+<!-- Button trigger modal -->
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#studentModal"
+>
+  {{ title }}
+</button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="studentModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          {{ title }} Student
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input
+              autofocus
+              type="text"
+              class="form-control"
+              id="name"
+              formControlName="name"
+            />
+            <div *ngIf="fc.name.errors?.['required']">
+              <div
+                class="alert alert-danger"
+                *ngIf="fc.name.invalid && fc.name.touched"
+              >
+                Name is required
+              </div>
+            </div>
+          </div>
+         
+          <div class="mb-3">
+            <label for="name" class="form-label">Class</label>
+            <select class="form-control form-select" name="" id="" formControlName="school_class_name">
+              <option value="">Choose Class</option>
+              <option
+                *ngFor="let classrooms of classes"
+                [value]="classrooms.name"
+              >
+                {{ classrooms.name }}
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="onCancel()"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          data-bs-dismiss="modal"
+          class="btn btn-primary"
+          (click)="onSubmit()"
+          [disabled]="fc.name.invalid  || fc.school_class_name.invalid"
+        >
+          {{ title }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

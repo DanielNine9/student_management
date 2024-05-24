@@ -1,0 +1,139 @@
+<div class="row">
+  <h3>Subject</h3>
+  <div class="col-lg-8">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex gap-2">
+        <select (change)="onChangeSort()" [(ngModel)]="sort" name="" id="" class="form-select">
+          <option value="+id">Ascending by id</option>
+          <option value="-id">Descending by id</option>
+        </select>
+      </div>
+      <div class="d-flex gap-2">
+        <input  [(ngModel)]="search" type="text" class="form-control" placeholder="Typing name..." />
+        <div class="btn btn-primary" (click)="onClickSearch()">Search</div>
+      </div>
+    </div>
+    <app-table-subject
+      [subjects]="subjects"
+      (clickTable)="onClickTable($event)"
+    ></app-table-subject>
+
+    <div class="d-flex gap-2 justify-content-center">
+      <button
+        [disabled]="previous == null"
+        class="page-item btn btn-primary"
+        (click)="changePage(previous)"
+      >
+        Previous
+      </button>
+      <button
+        [disabled]="next == null"
+        class="page-item btn btn-primary"
+        (click)="changePage(next)"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">
+        {{ title }}
+      </div>
+      <div class="card-body">
+        <form action="" [formGroup]="form">
+          <div class="form-label">Name</div>
+          <input
+            id="name"
+            type="text"
+            class="form-control"
+            placeholder="Typing..."
+            [(ngModel)]="subject.name"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <div class="mt-2">
+            <label for="rooms" class="form-label">Semesters</label>
+            <select
+              class="form-control form-select"
+              name=""
+              id=""
+              (change)="addSemesterSelected($event)"
+              formControlName="semesterSelected"
+            >
+              <option value="0">Choose Semester</option>
+              <option *ngFor="let semester of semesters" [value]="semester.id">
+                {{ semester.name }}
+              </option>
+            </select>
+            <div style="max-height: 100px; overflow-y: auto">
+              <div class="list-group">
+                <div
+                  class="list-group-item d-flex justify-content-between align-items-center"
+                  *ngFor="let semester of semestersSelected"
+                >
+                  {{ semester.name }}
+                  <div
+                    class="btn btn-danger btn-sm"
+                    (click)="removeSemesterSelected(semester.name)"
+                  >
+                    Remove
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-2">
+              <label for="rooms" class="form-label">Rooms</label>
+              <select
+                class="form-control form-select"
+                name=""
+                id=""
+                (change)="addRoomSelected($event)"
+                formControlName="roomSelected"
+              >
+                <option value="0">Choose Rooms</option>
+                <option *ngFor="let room of rooms" [value]="room.id">
+                  {{ room.name }}
+                </option>
+              </select>
+              <div style="max-height: 100px; overflow-y: auto">
+                <div class="list-group">
+                  <div
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                    *ngFor="let room of roomsSelected"
+                  >
+                    {{ room.name }}
+                    <div
+                      class="btn btn-danger btn-sm"
+                      (click)="removeRoomSelected(room.name)"
+                    >
+                      Remove
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="card-footer">
+        <div class="d-flex gap-2 mt-2">
+          <div class="btn btn-secondary" (click)="onReset()">Reset</div>
+
+          <div *ngIf="subject.id == -1; else edit">
+            <button class="btn btn-success" (click)="onAdd()">Add</button>
+          </div>
+          <ng-template #edit>
+            <div class="d-flex gap-2">
+              <button class="btn btn-info" (click)="onUpdate()">Save</button>
+              <button class="btn btn-danger" (click)="onDelete()">
+                Delete
+              </button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

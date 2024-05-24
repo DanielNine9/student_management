@@ -1,0 +1,43 @@
+<table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Semesters</th>
+        <th scope="col">Rooms</th>
+      </tr>
+    </thead>
+    <tbody>
+      <div *ngIf="subjects.length != 0; then data; else noData"></div>
+      <ng-template #data>
+        <tr *ngFor="let subject of subjects" (click) = "onClick(subject)">
+          <th scope="row">{{ subject.id }}</th>
+          <td>{{ subject.name }}</td>
+          <td>
+            <ng-container
+              *ngIf="
+                subject.semesters && subject.semesters.length > 0;
+                else noSemesters
+              "
+            >
+              {{ subject.semesters.join(", ") }}
+            </ng-container>
+            <ng-template #noSemesters> <span class="text-danger">No semesters</span> </ng-template>
+          </td>
+          <td>
+            <ng-container
+              *ngIf="
+                subject.rooms && subject.rooms.length > 0;
+                else noRooms
+              "
+            >
+              {{ subject.rooms.join(", ") }}
+            </ng-container>
+            <ng-template #noRooms>  <span class="text-danger">No rooms</span> </ng-template>
+          </td>
+      </ng-template>
+      <ng-template #noData> No data </ng-template>
+    </tbody>
+  </table>
+
+  

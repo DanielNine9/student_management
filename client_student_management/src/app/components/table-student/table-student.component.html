@@ -1,0 +1,67 @@
+<div class="d-flex justify-content-between">
+  <div class="d-flex gap-2">
+    <app-edit-student
+      (submit)="onSubmit($event)"
+      [isAdd]="true"
+      [classes]="classes"
+    ></app-edit-student>
+    <select
+      (change)="onChangeSort()"
+      [(ngModel)]="sort"
+      name=""
+      id=""
+      class="form-select"
+    >
+      <option value="+id">Ascending by id</option>
+      <option value="-id">Descending by id</option>
+    </select>
+  </div>
+  <div class="d-flex gap-2">
+    <input
+      [(ngModel)]="search"
+      type="text"
+      class="form-control"
+      placeholder="Typing name..."
+    />
+    <div class="btn btn-primary" (click)="onClickSearch()">Search</div>
+  </div>
+</div>
+<table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Class</th>
+    </tr>
+  </thead>
+  <tbody>
+    <div *ngIf="students.length != 0; then data; else noData"></div>
+    <ng-template #data>
+      <tr
+        *ngFor="let student of students"
+        [routerLink]="['students', student.id]"
+      >
+        <th scope="row">ST{{ student.id }}</th>
+        <td>{{ student.name }}</td>
+        <td>{{ student.school_class_name }}</td>
+      </tr>
+    </ng-template>
+    <ng-template #noData> No data </ng-template>
+  </tbody>
+</table>
+<div class="d-flex gap-2 justify-content-center">
+  <button
+    [disabled]="previous == null"
+    class="page-item btn btn-primary"
+    (click)="changePage(previous)"
+  >
+    Previous
+  </button>
+  <button
+    [disabled]="next == null"
+    class="page-item btn btn-primary"
+    (click)="changePage(next)"
+  >
+    Next
+  </button>
+</div>

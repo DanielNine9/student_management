@@ -1,0 +1,143 @@
+<div class="d-flex justify-content-between">
+  <app-edit-class
+    (submit)="onSubmit($event)"
+    [isAdd]="true"
+    [schoolClass]="{ name: '', semesters: [] }"
+  ></app-edit-class>
+  <div class="d-flex gap-2">
+    <input
+      [(ngModel)]="search"
+      type="text"
+      class="form-control"
+      placeholder="Typing name..."
+    />
+    <div class="btn btn-primary" (click)="onClickSearch()">Search</div>
+  </div>
+</div>
+
+<table
+  mat-table
+  matSort
+  [dataSource]="dataSource"
+  class=""
+  (matSortChange)="onChangeSort()"
+>
+  <ng-container matColumnDef="id">
+    <th mat-sort-header="id" mat-header-cell *matHeaderCellDef>No.</th>
+    <td mat-cell *matCellDef="let element">{{ element?.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-sort-header="name" mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="semesters">
+    <th mat-header-cell *matHeaderCellDef>Semesters</th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container
+        *ngIf="element.semesters && element.semesters.length; else noSemesters"
+      >
+        {{ element.semesters.join(", ") }}
+      </ng-container>
+      <ng-template #noSemesters>
+        <span style="color: red">No Semesters</span>
+      </ng-template>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="quantity">
+    <th mat-header-cell *matHeaderCellDef>Quantity</th>
+
+    <td mat-cell *matCellDef="let element">
+      <ng-container *ngIf="element.quantity > 0; else noQuantity">
+        {{ element.quantity }}
+      </ng-container>
+      <ng-template #noQuantity>
+        <span style="color: red">No Students</span>
+      </ng-template>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<mat-paginator
+  #paginator
+  class="demo-paginator"
+  (page)="handlePageEvent($event)"
+  [length]="length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+  [hidePageSize]="hidePageSize"
+  [pageIndex]="pageIndex"
+  aria-label="Select page"
+>
+</mat-paginator>
+<div *ngIf="dataSource.length == 0">No data</div>
+
+<!-- 
+<table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Semesters</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <div *ngIf="classes.length != 0; then data; else noData"></div>
+    <ng-template #data>
+      <tr
+        *ngFor="let school_class of classes"
+        [routerLink]="['/classes', school_class.id]"
+      >
+        <th scope="row">CL{{ school_class.id }}</th>
+        <td>{{ school_class.name }}</td>
+        <td>
+          <ng-container
+            *ngIf="
+              school_class.semesters && school_class.semesters.length > 0;
+              else noSemesters
+            "
+          >
+            {{ school_class.semesters.join(", ") }}
+          </ng-container>
+          <ng-template #noSemesters> No semesters </ng-template>
+        </td>
+        <td>
+          <ng-container
+            *ngIf="
+              school_class.quantity && school_class.quantity > 0;
+              else noStudent
+            "
+          >
+            {{ school_class.quantity }}
+          </ng-container>
+          <ng-template #noStudent>
+            <span class="text-danger">No student</span></ng-template
+          >
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #noData> No data </ng-template>
+  </tbody>
+</table> -->
+<!-- 
+<div class="d-flex gap-2 justify-content-center">
+  <button
+    [disabled]="previous == null"
+    class="page-item btn btn-primary"
+    (click)="changePage(previous)"
+  >
+    Previous
+  </button>
+  <button
+    [disabled]="next == null"
+    class="page-item btn btn-primary"
+    (click)="changePage(next)"
+  >
+    Next
+  </button>
+</div> -->

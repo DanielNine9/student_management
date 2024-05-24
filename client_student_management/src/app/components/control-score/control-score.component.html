@@ -1,0 +1,125 @@
+<!-- <nav class="w-50 mx-auto">
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button
+      *ngFor="let semester of room?.semesters; let i = index"
+      [ngClass]="{ active: i == 0 }"
+      class="nav-link"
+      [id]="semester"
+      data-bs-toggle="tab"
+      data-bs-target="#nav-home"
+      type="button"
+      role="tab"
+      aria-controls="nav-home"
+      aria-selected="true"
+      (click)="onClickTab(room?.semester_ids?.[i])"
+    >
+      {{ semester }}
+    </button>
+  </div>
+</nav> -->
+<!-- 
+<form action="" class="w-50 mx-auto border p-4">
+  <div class="d-flex justify-content-between">
+    <h3>
+      <div *ngIf="room?.semesters?.length == 0; else data">No semester</div>
+      <ng-template #data>Score</ng-template>
+    </h3>
+
+    <div class="d-flex gap-2">
+      <button *ngIf="edit" class="btn btn-secondary" (click)="onEdit()">
+        Cancel
+      </button>
+
+      <button *ngIf="!edit" class="btn btn-info" (click)="onEdit()">
+        Edit
+      </button>
+      <button *ngIf="edit" class="btn btn-info" (click)="onSave()">Save</button>
+    </div>
+  </div>
+  <div class="" *ngFor="let subject of subjects">
+    <label for="{{ subject.name }}" class="form-label">{{
+      subject.name
+    }}</label>
+    <input
+      min="0"
+      max="100"
+      type="number"
+      class="form-control"
+      [readonly]="!edit"
+      [placeholder]="subject.score"
+      [(ngModel)]="subject.score"
+      (input)="onChange()"
+      [ngModelOptions]="{ standalone: true }"
+    />
+  </div>
+</form> -->
+
+<div class="accordion w-50 mx-auto" id="accordionExample">
+  <div
+    *ngFor="let semester of room?.semesters; let i = index"
+    class="accordion-item"
+  >
+    <h2
+      class="accordion-header"
+      id="heading{{ i }}"
+      (click)="onClickTab(room?.semester_ids?.[i])"
+    >
+      <button
+        class="accordion-button"
+        type="button"
+        data-bs-toggle="collapse"
+        [attr.data-bs-target]="'#collapse' + i"
+        aria-expanded="true"
+        [attr.aria-controls]="'collapse' + i"
+      >
+        {{ semester }}
+      </button>
+    </h2>
+    <div
+      id="collapse{{ i }}"
+      class="accordion-collapse collapse"
+      [class.show]="i === 0"
+      data-bs-parent="#accordionExample"
+    >
+      <div class="accordion-body p-4">
+        <div class="d-flex justify-content-between">
+          <h3>
+            <div *ngIf="room?.semesters?.length == 0; else data">
+              No semester
+            </div>
+            <ng-template #data>Score</ng-template>
+          </h3>
+
+          <div class="d-flex gap-2">
+            <button *ngIf="edit" class="btn btn-secondary" (click)="onEdit()">
+              Cancel
+            </button>
+
+            <button *ngIf="!edit" class="btn btn-info" (click)="onEdit()">
+              Edit
+            </button>
+            <button *ngIf="edit" class="btn btn-info" (click)="onSave()">
+              Save
+            </button>
+          </div>
+        </div>
+        <div class="" *ngFor="let subject of subjects">
+          <label for="{{ subject.name }}" class="form-label">{{
+            subject.name
+          }}</label>
+          <input
+            min="0"
+            max="100"
+            type="number"
+            class="form-control"
+            [readonly]="!edit"
+            [placeholder]="subject.score"
+            [(ngModel)]="subject.score"
+            (input)="onChange()"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
